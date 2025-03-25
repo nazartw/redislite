@@ -43,7 +43,11 @@ def download_redis_submodule():
         shutil.rmtree(REDIS_PATH)
     with tempfile.TemporaryDirectory() as tempdir:
         print(f'Downloading {REDIS_URL} to temp directory {tempdir}')
-        ftpstream = urllib.request.urlopen(REDIS_URL)
+        headers = {
+            'User-Agent': 'wget/1.21.2 (linux-gnu)'
+        }
+        req = urllib.request.Request(REDIS_URL, headers=headers)
+        ftpstream = urllib.request.urlopen(req)
         tf = tarfile.open(fileobj=ftpstream, mode="r|gz")
         directory = tf.next().name
 
